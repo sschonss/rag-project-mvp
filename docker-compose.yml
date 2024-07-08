@@ -1,0 +1,24 @@
+services:
+
+  chromadb:
+      container_name: chromadb
+      image: chromadb/chroma
+      ports:
+        - "8000:8000"
+      depends_on:
+        - ollama
+  node:
+      container_name: node
+      image: node:latest
+      volumes:
+        - .:/app
+      working_dir: /app
+      command: node index.js
+      depends_on:
+        - chromadb
+  ollama:
+      container_name: ollama
+      image: ollama/ollama
+      ports:
+        - "11434:11434"
+  
